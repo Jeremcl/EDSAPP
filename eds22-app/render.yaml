@@ -1,0 +1,32 @@
+services:
+  # Backend API
+  - type: web
+    name: eds22-backend
+    env: node
+    region: frankfurt
+    plan: free
+    buildCommand: cd server && npm install
+    startCommand: cd server && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: MONGODB_URI
+        sync: false # À configurer manuellement dans le dashboard Render
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRE
+        value: 7d
+
+  # Frontend React
+  - type: web
+    name: eds22-frontend
+    env: static
+    region: frankfurt
+    plan: free
+    buildCommand: cd client && npm install && npm run build
+    staticPublishPath: client/build
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://eds22-backend.onrender.com/api # À ajuster selon votre URL backend
