@@ -60,7 +60,8 @@ const LoginPage = () => {
             placeholder="admin@eds22.com"
           />
 
-            label="Mot de passe"
+            <Input
+                          label="Mot de passe"
             type="password"
             name="motDePasse"
             value={formData.motDePasse}
