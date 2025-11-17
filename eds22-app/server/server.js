@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const dotenv = require('dotenv');
+const path = require('path');
 const connectDB = require('./utils/database');
 const config = require('./config/config');
 const User = require('./models/User');
@@ -63,7 +64,17 @@ const startServer = async () => {
     app.use('/api/interventions', require('./routes/interventions'));
     app.use('/api/clients', require('./routes/clients'));
     app.use('/api/stock', require('./routes/stock'));
-    
+
+    // Servir les fichiers statiques du client React en production
+    if (process.env.NODE_ENV === 'production') {
+      app.use(express.static(path.join(__dirname, '../client/build')));
+
+      // Route catch-all pour servir index.html pour toutes les routes non-API
+      app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
+      });
+    }
+
     // Démarrer le serveur
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
