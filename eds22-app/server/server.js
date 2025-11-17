@@ -3,12 +3,37 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const connectDB = require('./utils/database');
 const config = require('./config/config');
+const User = require('./models/User');
 
 // Charger les variables d'environnement
 dotenv.config();
 
 // Connecter à la base de données
 connectDB();
+
+// Initialiser l'utilisateur admin par défaut
+const initAdmin = async () => {
+    try {
+          const adminExists = await User.findOne({ email: 'admin@eds22.com' });
+          if (!adminExists) {
+                  await User.create({
+                            nom: 'Admin',
+                            prenom: 'EDS22',
+                            email: 'admin@eds22.com',
+                            motDePasse: 'password123',
+                            role: 'Admin'
+                                    });
+                  console.log('✅ Utilisateur admin créé avec succès');
+                } else {
+                  console.log('✅ Utilisateur admin existe déjà');
+                }
+        } catch (error) {
+          console.error('❌ Erreur lors de l\'initialisation de l\'admin:', error);
+        }
+  };
+
+// Appeler initAdmin après la connexion DB
+initAdmin();
 
 const app = express();
 
