@@ -38,6 +38,11 @@ const initAdmin = async () => {
 // Fonction principale pour démarrer le serveur
 const startServer = async () => {
   try {
+    // Logs de débogage initiaux
+    console.log('🔍 Démarrage de l\'application...');
+    console.log('🔍 MONGODB_URI:', process.env.MONGODB_URI ? 'DÉFINIE' : 'MANQUANTE');
+    console.log('🔍 PORT:', process.env.PORT || 5000);
+
     // 1. Connecter à la base de données
     console.log('🔗 Connexion à MongoDB...');
     await connectDB();
