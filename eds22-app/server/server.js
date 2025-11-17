@@ -4,6 +4,7 @@ const dotenv = require('dotenv');
 const connectDB = require('./utils/database');
 const config = require('./config/config');
 const User = require('./models/User');
+const bcrypt = require('bcryptjs');
 
 // Charger les variables d'environnement
 dotenv.config();
@@ -16,13 +17,14 @@ const initAdmin = async () => {
     try {
           const adminExists = await User.findOne({ email: 'admin@eds22.com' });
           if (!adminExists) {
-                  await User.create({
+                  
+                    const salt = await bcrypt.genSalt(10);
+                    const hashedPassword = await bcrypt.hash('password123', salt);await User.create({
                             nom: 'Admin',
                             prenom: 'EDS22',
                             email: 'admin@eds22.com',
-                            motDePasse: 'password123',
-                            role: 'Admin'
-                                    });
+        motDePasse: hashedPassword,
+        role: 'Admin'                                    });
                   console.log('✅ Utilisateur admin créé avec succès');
                 } else {
                   console.log('✅ Utilisateur admin existe déjà');
