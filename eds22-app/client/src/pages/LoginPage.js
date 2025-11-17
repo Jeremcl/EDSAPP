@@ -57,17 +57,14 @@ const LoginPage = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            required
             placeholder="admin@eds22.com"
           />
 
-          <Input
             label="Mot de passe"
             type="password"
             name="motDePasse"
             value={formData.motDePasse}
             onChange={handleChange}
-            required
             placeholder="Entrez votre mot de passe"
           />
 
