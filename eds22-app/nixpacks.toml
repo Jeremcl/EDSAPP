@@ -1,0 +1,19 @@
+# Configuration Nixpacks pour Railway
+# Ce fichier garantit que les fichiers build React sont inclus dans l'image finale
+
+[phases.setup]
+nixPkgs = ["nodejs_18"]
+
+[phases.install]
+cmds = [
+  "cd server && npm install",
+  "cd ../client && npm install"
+]
+
+[phases.build]
+cmds = [
+  "cd client && npm run build"
+]
+
+[start]
+cmd = "node server/server.js"
