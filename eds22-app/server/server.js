@@ -67,14 +67,14 @@ const startServer = async () => {
 
     // Servir les fichiers statiques du client React en production
     if (process.env.NODE_ENV === 'production') {
-      app.use(express.static(path.join(__dirname, '../client/build')));
-
+  const buildPath = path.join(__dirname, '..', 'client', 'build');
+  console.log('📁 Chemin du build React:', buildPath);
+  app.use(express.static(buildPath));
       // Route catch-all pour servir index.html pour toutes les routes non-API
       app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, '../client/build', 'index.html'));
-      });
-    }
-
+    res.sendFile(path.join(buildPath, 'index.html'));
+  });
+}
     // Démarrer le serveur
     const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => {
